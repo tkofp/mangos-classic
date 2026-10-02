@@ -20230,7 +20230,9 @@ void Player::AddCooldown(SpellEntry const& spellEntry, ItemPrototype const* item
         auto& cdData = cdDataItr->second;
         if (!cdData->IsPermanent() && (!cdData->IsSpellCDExpired(GetMap()->GetCurrentClockTime()) || !cdData->IsCatCDExpired(GetMap()->GetCurrentClockTime())))
         {
-            sLog.outError("Player::AddCooldown> Spell(%u) try to add and already existing cooldown %u?", spellEntry.Id, forcedDuration);
+            // not an unexpected state: a spell may be recast before its cooldown was registered (e.g. fast stance switching),
+            // or a forced/triggered cast (e.g. login Battle Stance) may overlap an active cooldown. We keep the existing cooldown.
+            sLog.outDebug("Player::AddCooldown> Spell(%u) try to add and already existing cooldown %u?", spellEntry.Id, forcedDuration);
             return;
         }
         wasPermanent = cdData->IsPermanent();

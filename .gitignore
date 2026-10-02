@@ -99,4 +99,5 @@ cmake_install.cmake
 src/modules/
 
 # zlib fetched by CMake FetchContent
-dep/src/zlib/
+dep/src/zlib/AGENTS.md
+AGENTS.md

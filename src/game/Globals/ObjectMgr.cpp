@@ -1732,7 +1732,8 @@ void ObjectMgr::LoadCreatureModelInfo()
 
 void ObjectMgr::LoadCreatureConditionalSpawn()
 {
-    sCreatureConditionalSpawnStore.Load();
+    // optional table on classic: an empty table is valid, do not report it as an error
+    sCreatureConditionalSpawnStore.Load(false);
 
     // post processing
     for (uint32 i = 1; i < sCreatureConditionalSpawnStore.GetMaxEntry(); ++i)

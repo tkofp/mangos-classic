@@ -853,8 +853,8 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,broadc
 
 ('-1000194','I give up! Please don''t kill me!','0','0','0','0','0','unkor SAY_SUBMIT'),
 
-('-1000196','Belore...','0','0','1','0','19263','lady_sylvanas SAY_LAMENT_END'),
-('-1000197','Sighing, %s kneels down and picks up the amulet.','0','2','1','16','19244','lady_sylvanas EMOTE_LAMENT_END'),
+('-1000196','Belore...','0','0','1','0','0','lady_sylvanas SAY_LAMENT_END'),
+('-1000197','Sighing, %s kneels down and picks up the amulet.','0','2','1','16','0','lady_sylvanas EMOTE_LAMENT_END'),
 
 ('-1000198','Taste blade, mongrel!','0','0','0','0','10950','SAY_GUARD_SIL_AGGRO1'),
 ('-1000199','Please tell me that you didn''t just do what I think you just did. Please tell me that I''m not going to have to hurt you... ','0','0','0','0','10951','SAY_GUARD_SIL_AGGRO2'),

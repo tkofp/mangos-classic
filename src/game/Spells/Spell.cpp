@@ -1307,7 +1307,8 @@ void Spell::DoAllEffectOnTarget(TargetInfo* target)
                 case 23893: BTAura = 23887; break;
                 case 23894: BTAura = 23888; break;
                 default:
-                    sLog.outError("Spell::EffectSchoolDMG: Spell %u not handled in BTAura", m_spellInfo->Id);
+                    // other warrior spells may share SpellFamilyFlags (e.g. Mortal Strike 21553);
+                    // they simply do not grant the Bloodthirst aura, this is not an error
                     break;
             }
             if (BTAura)

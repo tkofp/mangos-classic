@@ -1456,7 +1456,9 @@ SpellCastResult Unit::CastSpell(Unit* Victim, uint32 spellId, uint32 triggeredFl
 
     if (!spellInfo)
     {
-        if (triggeredByAura)
+        if (!spellId)
+            sLog.outDebug("CastSpell: unknown spell id 0 by caster: %s", GetGuidStr().c_str());
+        else if (triggeredByAura)
             sLog.outError("CastSpell: unknown spell id %i by caster: %s triggered by aura %u (eff %u)", spellId, GetGuidStr().c_str(), triggeredByAura->GetId(), triggeredByAura->GetEffIndex());
         else
             sLog.outError("CastSpell: unknown spell id %i by caster: %s", spellId, GetGuidStr().c_str());
@@ -1702,7 +1704,9 @@ SpellCastResult Unit::CastSpell(SpellCastArgs& args, uint32 spellId, uint32 trig
 
     if (!spellInfo)
     {
-        if (triggeredByAura)
+        if (!spellId)
+            sLog.outDebug("CastSpell: unknown spell id 0 by caster: %s", GetGuidStr().c_str());
+        else if (triggeredByAura)
             sLog.outError("CastSpell: unknown spell id %i by caster: %s triggered by aura %u (eff %u)", spellId, GetGuidStr().c_str(), triggeredByAura->GetId(), triggeredByAura->GetEffIndex());
         else
             sLog.outError("CastSpell: unknown spell id %i by caster: %s", spellId, GetGuidStr().c_str());

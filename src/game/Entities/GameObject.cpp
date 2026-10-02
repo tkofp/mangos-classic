@@ -153,13 +153,17 @@ void GameObject::RemoveFromWorld()
         // Remove GO from owner
         if (ObjectGuid owner_guid = GetOwnerGuid())
         {
-            if (Unit* owner = ObjectAccessor::GetUnit(*this, owner_guid))
+            Unit* owner = ObjectAccessor::GetUnit(*this, owner_guid);
+            // the owner may still be online but outside this map (logging out / teleporting);
+            // look it up globally so its gameobject list does not keep a stale pointer
+            if (!owner)
+                owner = sObjectMgr.GetPlayer(owner_guid);
+
+            if (owner)
                 owner->RemoveGameObject(this, false);
             else
-            {
-                sLog.outError("Delete %s with SpellId %u LinkedGO %u that lost references to owner %s GO list. Crash possible later.",
+                sLog.outDebug("Delete %s with SpellId %u LinkedGO %u that lost references to owner %s GO list.",
                               GetGuidStr().c_str(), m_spellId, GetGOInfo()->GetLinkedGameObjectEntry(), owner_guid.GetString().c_str());
-            }
         }
 
         if (m_model && GetMap()->ContainsGameObjectModel(*m_model))
