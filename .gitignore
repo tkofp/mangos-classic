@@ -98,6 +98,8 @@ cmake_install.cmake
 #
 src/modules/
 
-# zlib fetched by CMake FetchContent
-dep/src/zlib/AGENTS.md
+# zlib fetched by CMake FetchContent (keep local copy out of git)
+dep/src/zlib/
+
+# Agent instruction files
 AGENTS.md
