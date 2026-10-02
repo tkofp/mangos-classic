@@ -21,34 +21,40 @@ if(BUILD_GAME_SERVER OR BUILD_LOGIN_SERVER OR BUILD_EXTRACTORS)
   add_subdirectory(shared)
 endif()
 
+# 我修改了逻辑：如果手动创建了modules/playerbot，将不再克隆下载playerbot模块
 # Playerbots module
 if(BUILD_PLAYERBOTS)
   include(FetchContent)
 
-  FetchContent_Declare(
-    PlayerBots
-    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/PlayerBots"
-    GIT_REPOSITORY "https://github.com/cmangos/playerbots.git"
-    GIT_TAG "master"
-  )
+  set(PLAYERBOTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/playerbots")
 
-  FetchContent_GetProperties(PlayerBots)
-  if (NOT playerbots_POPULATED)
-    FetchContent_Populate(PlayerBots)
-    message(STATUS "Playerbots module source dir: ${playerbots_SOURCE_DIR}")
+  if(EXISTS ${PLAYERBOTS_DIR})
+    message(STATUS "Using existing PlayerBots module: ${PLAYERBOTS_DIR}")
+    add_subdirectory(${PLAYERBOTS_DIR})
   else()
-    message(STATUS "Playerbots module already populated: ${playerbots_POPULATED}")
-  endif()
+    message(STATUS "PlayerBots module not found locally, fetching from git...")
+    
+    FetchContent_Declare(
+      PlayerBots
+      GIT_REPOSITORY "https://github.com/cmangos/playerbots.git"
+      GIT_TAG "master"
+      SOURCE_DIR ${PLAYERBOTS_DIR}
+    )
 
-  add_subdirectory(${playerbots_SOURCE_DIR})
+    FetchContent_GetProperties(PlayerBots)
+    if(NOT playerbots_POPULATED)
+      FetchContent_Populate(PlayerBots)
+    endif()
+
+    add_subdirectory(${playerbots_SOURCE_DIR})
+  endif()
 
 else()
   if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/modules/PlayerBots)
-    message(STATUS "PlayerBots module exists, but not building. You can remove it manually if you don't need it. (rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/modules/PlayerBots)")
-
-    #file(REMOVE_RECURSE ${CMAKE_CURRENT_SOURCE_DIR}/modules/PlayerBots)
+    message(STATUS "PlayerBots module exists, but not building. You can remove it manually if you don't need it.")
   endif()
 endif()
+# 我的修改结束
 
 if(BUILD_GAME_SERVER)
   add_subdirectory(game)
