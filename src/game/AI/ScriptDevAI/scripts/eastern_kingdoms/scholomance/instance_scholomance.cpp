@@ -237,8 +237,8 @@ void instance_scholomance::DoSpawnGandlingIfCan(bool bByPlayerEnter)
     if (m_auiEncounter[TYPE_GANDLING] == DONE)
         return;
 
-    // Summon only once
-    if (GetSingleCreatureFromStorage(NPC_DARKMASTER_GANDLING))
+    // Summon only once (Gandling is expected to be absent before the summon, so do not spam the log)
+    if (GetSingleCreatureFromStorage(NPC_DARKMASTER_GANDLING, true))
         return;
 
     Player* pPlayer = GetPlayerInMap();

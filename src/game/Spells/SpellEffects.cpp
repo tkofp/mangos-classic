@@ -2149,6 +2149,7 @@ void Spell::SendLoot(ObjectGuid guid, LootType loottype, LockType lockType)
                         {
                             case LOCKTYPE_NONE:
                             case LOCKTYPE_DISARM_TRAP:
+                            case LOCKTYPE_OPEN_TINKERING:
                             case LOCKTYPE_OPEN_ATTACKING:
                                 gameObjTarget->SetLootState(GO_ACTIVATED);
                                 return;

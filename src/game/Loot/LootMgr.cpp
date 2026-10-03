@@ -1472,7 +1472,8 @@ void Loot::ShowContentTo(Player* plr)
         if (!m_lootItems.empty() && !CanLoot(plr))
         {
             SendReleaseFor(plr);
-            sLog.outError("Loot::ShowContentTo()> %s is trying to open a loot without credential", plr->GetGuidStr().c_str());
+            // bot-driven (loot is released); not an error
+            sLog.outDebug("Loot::ShowContentTo()> %s is trying to open a loot without credential", plr->GetGuidStr().c_str());
             return;
         }
 

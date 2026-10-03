@@ -1618,7 +1618,8 @@ std::pair<bool, bool> ScriptAction::GetScriptProcessTargets(WorldObject* origina
 
             if (buddies.empty() && m_script->command != SCRIPT_COMMAND_TERMINATE_SCRIPT)
             {
-                sLog.outErrorDb(" DB-SCRIPTS: Process table `%s` id %u, command %u has buddy %u not found in range %u of searcher %s (data-flags %u), skipping.", m_table, m_script->id, m_script->command, m_script->buddyEntry, m_script->searchRadiusOrGuid, origin->GetGuidStr().c_str(), m_script->data_flags);
+                // transient/content situation (buddy dead, despawned or not spawned); the command is skipped safely
+                sLog.outDebug(" DB-SCRIPTS: Process table `%s` id %u, command %u has buddy %u not found in range %u of searcher %s (data-flags %u), skipping.", m_table, m_script->id, m_script->command, m_script->buddyEntry, m_script->searchRadiusOrGuid, origin->GetGuidStr().c_str(), m_script->data_flags);
                 return { false, false };
             }
         }
@@ -2488,7 +2489,8 @@ bool ScriptAction::ExecuteDbscriptCommand(WorldObject* pSource, WorldObject* pTa
 
             if (!pAttacker->CanAttackNow(unitTarget))
             {
-                sLog.outErrorDb(" DB-SCRIPTS: Process table `%s` id %u, command %u source can not attack (Attacker: %s, Target: %s)", m_table, m_script->id, m_script->command, pAttacker->GetGuidStr().c_str(), unitTarget->GetGuidStr().c_str());
+                // content/transient situation (e.g. same faction training dummy); the command is skipped safely
+                sLog.outDebug(" DB-SCRIPTS: Process table `%s` id %u, command %u source can not attack (Attacker: %s, Target: %s)", m_table, m_script->id, m_script->command, pAttacker->GetGuidStr().c_str(), unitTarget->GetGuidStr().c_str());
                 break;
             }
 

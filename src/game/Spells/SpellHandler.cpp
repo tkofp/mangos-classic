@@ -274,7 +274,8 @@ void WorldSession::HandleGameObjectUseOpcode(WorldPacket& recv_data)
 
     if (obj->GetSpellForLock(_player))
     {
-        sLog.outError("HandleGameObjectUseOpcode: CMSG_GAMEOBJ_USE for spell locked object (Entry %u), didn't expect this to happen.", obj->GetEntry());
+        // clients (including bots) may right-click a spell-locked object; the unlock is handled by casting the required spell
+        sLog.outDebug("HandleGameObjectUseOpcode: CMSG_GAMEOBJ_USE for spell locked object (Entry %u), ignoring.", obj->GetEntry());
         return;
     }
 
@@ -288,7 +289,8 @@ void WorldSession::HandleGameObjectUseOpcode(WorldPacket& recv_data)
     // Never expect this opcode for some type GO's
     if (obj->GetGoType() == GAMEOBJECT_TYPE_GENERIC)
     {
-        sLog.outError("HandleGameObjectUseOpcode: CMSG_GAMEOBJ_USE for not allowed GameObject type %u (Entry %u), didn't expect this to happen.", obj->GetGoType(), obj->GetEntry());
+        // bot-driven (interaction simply ignored); not an error
+        sLog.outDebug("HandleGameObjectUseOpcode: CMSG_GAMEOBJ_USE for not allowed GameObject type %u (Entry %u), ignoring.", obj->GetGoType(), obj->GetEntry());
         return;
     }
 
